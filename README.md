@@ -1,1 +1,1 @@
-# personal_blog
+# personal_website
