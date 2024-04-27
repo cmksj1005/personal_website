@@ -5,7 +5,7 @@ from django.shortcuts import render
 all_posts = [
     {
         "slug": "hike-in-the-mountains",
-        "image": "SJK.jpg",
+        "image": "test.jpg",
         "author": "Maximilian",
         "date": date(2021, 7, 21),
         "title": "Mountain Hiking",
@@ -81,7 +81,12 @@ def starting_page(request):
   })
 
 def posts(request):
-  return render(request, "blog/all-posts.html")
+  return render(request, "blog/all-posts.html", {
+    "all_posts": all_posts
+  })
 
 def post_detail(request, slug):
-  return render(request, "blog/post-detail.html")
+  identified_post = next(post for post in all_posts if post['slug'] == slug)
+  return render(request, "blog/post-detail.html", {
+    "post": identified_post
+  })
