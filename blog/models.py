@@ -34,7 +34,7 @@ class Project(models.Model):
   def __str__(self):
     return self.title
 
-class Feedbacks(models.Model):
+class Feedback(models.Model):
   user_name = models.CharField(max_length=120)
   user_email = models.EmailField()
   text = models.TextField(max_length=400)

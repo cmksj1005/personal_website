@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ project.title }}
+{% endblock%} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "blog/project-detail.css" %}">
+{% endblock %}
+
+{% block content %}
+
+{% if feedback_form.errors %}
+<div id="alert">
+  <h2>Saving the feedback failed!</h2>
+  <p>Please check the feedback form below the project and fix your errors.</p>
+  <a href="#feedback-form">Fix</a>
+</div>
+{% endif %}
+
+  <section id="summary">
+    <h2>{{ project.title }}</h2>
+    <div>
+      {% for tag in project_tags %}
+        <span class="tag">{{ tag.caption }}</span>
+      {% endfor %}
+    </div>
+    <div id="read-later">
+      <form action="{% url "read-later" %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{ project.id }}" name="project_id">
+        <button>
+          {% if saved_for_later %}
+            Remove from "Read Later" List
+          {% else %}
+            Read Later
+          {% endif %}
+        </button>
+      </form>
+    </div>
+    <article>
+      <img src="{{ project.image.url }}" alt="{{ project.title }}">
+      <address>By <a href="mailto:{{ project.author.email_address }}">{{ project.author }}</a></address>
+      <div>
+        Last updated on <time>{{ project.date|date:"d M Y" }}</time>
+      </div>
+    </article>
+  </section>
+
+  <main>
+    {{ project.content|linebreaks }}
+  </main>
+
+  <section id="feedbacks">
+    <ul>
+      {% for feedback in feedbacks %}
+      <li>
+        <h2>{{ feedback.user_name }}</h2>
+        <p>{{ feedback.text|linebreaks }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="feedback-form">
+    <h2>Your Feedback</h2>
+    <form action="{% url "project-detail-page" project.slug %}" method="POST">
+      {% csrf_token %}
+      {% for form_field in feedback_form %}
+      <div class="form-control {% if form_field.errors %}invalid{% endif %}">
+        {{ form_field.label_tag }}
+        {{ form_field }}
+        {{ form_field.errors }}
+      </div>
+      {% endfor %}
+      <button>Save Feedback</button>
+    </form>
+  </section>
+{% endblock %}

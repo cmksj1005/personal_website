@@ -9,11 +9,11 @@ from .forms import FeedbackForm
 
 # Create your views here.
 
-class StartingProjectView(ListView):
+class StartingPageView(ListView):
   template_name = "blog/index.html"
   model = Project
   ordering = ["-date"]
-  context_object_name = "project"
+  context_object_name = "projects"
 
   def get_queryset(self):
     queryset = super().get_queryset()
@@ -82,7 +82,7 @@ class ReadLaterView(View):
 
     return render(request, "blog/stored-projects.html", context)
 
-  def post(self, request):
+  def project(self, request):
     stored_projects = request.session.get("stored_projects")
 
     if stored_projects is None:

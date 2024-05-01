@@ -6,7 +6,7 @@
 {% endblock%} 
 
 {% block css_files %}
-  <link rel="stylesheet" href="{% static "blog/post.css" %}">
+  <link rel="stylesheet" href="{% static "blog/project.css" %}">
   <link rel="stylesheet" href="{% static "blog/index.css" %}">
 {% endblock %}
 
@@ -19,12 +19,12 @@
     <p>Hi, I am Shinjo and I love to blog about tech and the world!</p>
   </section>
 
-  <section id="latest-posts">
-    <h2>My Lastest Thoughts</h2>
+  <section id="latest-projects">
+    <h2>My Lastest Projects</h2>
 
     <ul>
-      {% for post in posts%}
-        {% include "blog/includes/post.html" %}
+      {% for project in projects %}
+        {% include "blog/includes/project.html" %}
       {% endfor %}
     </ul>
   </section>

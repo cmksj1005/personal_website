@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  My Stored Projects
+{% endblock%} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "blog/stored-projects.css" %}">
+{% endblock %}
+
+{% block content %}
+  <section id="stored-projects">
+    {% if not has_projects %}
+      <p>You didn't save any projects for later.</p>
+    {% endif %}
+    <ul>
+      {% for project in projects %}
+        <li><a href="{% url "project-detail-page" project.slug %}">{{ project.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

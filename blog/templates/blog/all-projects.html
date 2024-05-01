@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  All My Projects
+{% endblock%} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "blog/project.css" %}">
+  <link rel="stylesheet" href="{% static "blog/all-projects.css" %}" />
+{% endblock %}
+
+{% block content %}
+    <section id="all-projects">
+        <h2>My Collected Projects</h2>
+        <ul>
+            {% for project in all_projects %}
+              {% include "blog/includes/project.html" %}
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
