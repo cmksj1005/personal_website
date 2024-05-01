@@ -5,7 +5,7 @@ from .models import Feedback
 class FeedbackForm(forms.ModelForm):
   class Meta:
     model = Feedback
-    exclude = ["Project"]
+    exclude = ["project"]
     labels = {
       "user_name": "Your Name",
       "user_email": "Your Email",

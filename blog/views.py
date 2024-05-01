@@ -27,7 +27,7 @@ class AllProjectsView(ListView):
   context_object_name = "all_projects"
 
 class SingleProjectView(View):
-  def is_store_project(self, request, project_id): #### 여기 체크해서 나중에 redirect 다시 보자. 여기서 project_id 가져오네
+  def is_stored_project(self, request, project_id): #### 여기 체크해서 나중에 redirect 다시 보자. 여기서 project_id 가져오네
     stored_projects = request.session.get("stored_projects")
     if stored_projects is not None:
       is_saved_for_later = project_id in stored_projects
@@ -43,11 +43,11 @@ class SingleProjectView(View):
       "project_tags": project.tags.all(),
       "feedback_form": FeedbackForm(),
       "feedbacks": project.feedbacks.all().order_by("-id"),
-      "saved_for_later": self.is_store_project(request, project.id)
+      "saved_for_later": self.is_stored_project(request, project.id)
     }
     return render(request, "blog/project-detail.html", context)
 
-  def project(self, request, slug):
+  def post(self, request, slug):
     feedback_form = FeedbackForm(request.POST)
     project = Project.objects.get(slug=slug)
 
@@ -62,7 +62,7 @@ class SingleProjectView(View):
       "project_tags": project.tags.all(),
       "feedback_form": feedback_form,
       "feedbacks": project.feedbacks.all().order_by("-id"),
-      "saved_for_later": self.is_store_project(request, project.id)
+      "saved_for_later": self.is_stored_project(request, project.id)
     }
     return render(request, "blog/project-detail.html", context)
   
@@ -82,7 +82,7 @@ class ReadLaterView(View):
 
     return render(request, "blog/stored-projects.html", context)
 
-  def project(self, request):
+  def post(self, request):
     stored_projects = request.session.get("stored_projects")
 
     if stored_projects is None:
