@@ -36,6 +36,7 @@ class Project(models.Model):
 
 class Feedback(models.Model):
   user_name = models.CharField(max_length=120)
-  user_email = models.EmailField()
+  user_password = models.CharField(max_length=10, null=True)
   text = models.TextField(max_length=400)
   project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="feedbacks")
+  edit = models.BooleanField(default=False)

@@ -48,13 +48,16 @@ class SingleProjectView(View):
     }
     return render(request, "blog/project-detail.html", context)
 
-  def post(self, request, slug):
+  def post(self, request, slug, feedback_edit):
     feedback_form = FeedbackForm(request.POST)
     project = Project.objects.get(slug=slug)
 
     if feedback_form.is_valid():
       feedback = feedback_form.save(commit=False)
       feedback.project = project
+      # this part!!
+      feedback.edit = feedback_edit == "True"
+      print(feedback.edit)
       feedback.save()
       return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
     
