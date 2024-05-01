@@ -53,6 +53,9 @@
   </main>
 
   <section id="feedbacks">
+    {% if has_feedback == 0 %}
+      <p>No Feedback</p>
+    {% endif %}
     <ul>
       {% for feedback in feedbacks %}
       <li>

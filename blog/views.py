@@ -43,7 +43,8 @@ class SingleProjectView(View):
       "project_tags": project.tags.all(),
       "feedback_form": FeedbackForm(),
       "feedbacks": project.feedbacks.all().order_by("-id"),
-      "saved_for_later": self.is_stored_project(request, project.id)
+      "saved_for_later": self.is_stored_project(request, project.id),
+      "has_feedback": len(project.feedbacks.all())
     }
     return render(request, "blog/project-detail.html", context)
 
