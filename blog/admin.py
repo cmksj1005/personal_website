@@ -1,18 +1,18 @@
 from django.contrib import admin
 
-from .models import Post, Author, Tag, Comment
+from .models import Project, Author, Tag, Feedback
 
 # Register your models here.
 
-class PostAdmin(admin.ModelAdmin):
+class ProjectAdmin(admin.ModelAdmin):
   list_filter = ("author", "tags", "date",)
   list_display = ("title", "date", "author",)
   prepopulated_fields = {"slug": ("title",)}
 
-class CommentAdmin(admin.ModelAdmin):
-  list_display = ("user_name", "post")
+class FeedbackAdmin(admin.ModelAdmin):
+  list_display = ("user_name", "project")
 
-admin.site.register(Post, PostAdmin)
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Author)
 admin.site.register(Tag)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Feedback, FeedbackAdmin)

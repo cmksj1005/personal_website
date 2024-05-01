@@ -4,98 +4,98 @@ from django.urls import reverse
 from django.views.generic import ListView
 from django.views import View
 
-from .models import Post
-from .forms import CommentForm
+from .models import Project
+from .forms import FeedbackForm
 
 # Create your views here.
 
-class StartingPageView(ListView):
+class StartingProjectView(ListView):
   template_name = "blog/index.html"
-  model = Post
+  model = Project
   ordering = ["-date"]
-  context_object_name = "posts"
+  context_object_name = "project"
 
   def get_queryset(self):
     queryset = super().get_queryset()
     data = queryset[:3]
     return data
   
-class AllPostsView(ListView):
-  template_name = "blog/all-posts.html"
-  model = Post
+class AllProjectsView(ListView):
+  template_name = "blog/all-projects.html"
+  model = Project
   ordering = ["-date"]
-  context_object_name = "all_posts"
+  context_object_name = "all_projects"
 
-class SinglePostView(View):
-  def is_store_post(self, request, post_id):
-    stored_posts = request.session.get("stored_posts")
-    if stored_posts is not None:
-      is_saved_for_later = post_id in stored_posts
+class SingleProjectView(View):
+  def is_store_project(self, request, project_id): #### 여기 체크해서 나중에 redirect 다시 보자. 여기서 project_id 가져오네
+    stored_projects = request.session.get("stored_projects")
+    if stored_projects is not None:
+      is_saved_for_later = project_id in stored_projects
     else:
       is_saved_for_later = False
     return is_saved_for_later
 
   def get(self, request, slug):
-    post = Post.objects.get(slug=slug)
+    project = Project.objects.get(slug=slug)
 
     context = {
-      "post": post,
-      "post_tags": post.tags.all(),
-      "comment_form": CommentForm(),
-      "comments": post.comments.all().order_by("-id"),
-      "saved_for_later": self.is_store_post(request, post.id)
+      "project": project,
+      "project_tags": project.tags.all(),
+      "feedback_form": FeedbackForm(),
+      "feedbacks": project.feedbacks.all().order_by("-id"),
+      "saved_for_later": self.is_store_project(request, project.id)
     }
-    return render(request, "blog/post-detail.html", context)
+    return render(request, "blog/project-detail.html", context)
 
-  def post(self, request, slug):
-    comment_form = CommentForm(request.POST)
-    post = Post.objects.get(slug=slug)
+  def project(self, request, slug):
+    feedback_form = FeedbackForm(request.POST)
+    project = Project.objects.get(slug=slug)
 
-    if comment_form.is_valid():
-      comment = comment_form.save(commit=False)
-      comment.post = post
-      comment.save()
-      return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
+    if feedback_form.is_valid():
+      feedback = feedback_form.save(commit=False)
+      feedback.project = project
+      feedback.save()
+      return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
     
     context = {
-      "post": post,
-      "post_tags": post.tags.all(),
-      "comment_form": comment_form,
-      "comments": post.comments.all().order_by("-id"),
-      "saved_for_later": self.is_store_post(request, post.id)
+      "project": project,
+      "project_tags": project.tags.all(),
+      "feedback_form": feedback_form,
+      "feedbacks": project.feedbacks.all().order_by("-id"),
+      "saved_for_later": self.is_store_project(request, project.id)
     }
-    return render(request, "blog/post-detail.html", context)
+    return render(request, "blog/project-detail.html", context)
   
 class ReadLaterView(View):
   def get(self, request):
-    stored_posts = request.session.get("stored_posts")
+    stored_projects = request.session.get("stored_projects")
 
     context = {}
 
-    if stored_posts is None or len(stored_posts) == 0:
-      context["posts"] = []
-      context["has_posts"] = False
+    if stored_projects is None or len(stored_projects) == 0:
+      context["projects"] = []
+      context["has_projects"] = False
     else:
-      posts = Post.objects.filter(id__in=stored_posts)
-      context["posts"] = posts
-      context["has_posts"] = True
+      projects = Project.objects.filter(id__in=stored_projects)
+      context["projects"] = projects
+      context["has_projects"] = True
 
-    return render(request, "blog/stored-posts.html", context)
+    return render(request, "blog/stored-projects.html", context)
 
   def post(self, request):
-    stored_posts = request.session.get("stored_posts")
+    stored_projects = request.session.get("stored_projects")
 
-    if stored_posts is None:
-      stored_posts = []
+    if stored_projects is None:
+      stored_projects = []
 
-    post_id = int(request.POST["post_id"])
+    project_id = int(request.POST["project_id"])
 
-    if post_id not in stored_posts:
-      stored_posts.append(post_id)
+    if project_id not in stored_projects:
+      stored_projects.append(project_id)
 
     else:
-      stored_posts.remove(post_id)
+      stored_projects.remove(project_id)
 
-    request.session["stored_posts"] = stored_posts
+    request.session["stored_projects"] = stored_projects
 
     return HttpResponseRedirect("/read-later")

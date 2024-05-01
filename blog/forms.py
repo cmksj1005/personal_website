@@ -1,13 +1,13 @@
 from django import forms
 
-from .models import Comment
+from .models import Feedback
 
-class CommentForm(forms.ModelForm):
+class FeedbackForm(forms.ModelForm):
   class Meta:
-    model = Comment
-    exclude = ["post"]
+    model = Feedback
+    exclude = ["Project"]
     labels = {
       "user_name": "Your Name",
       "user_email": "Your Email",
-      "text": "Your Comment"
+      "text": "Your Feedback"
     }
