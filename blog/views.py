@@ -98,4 +98,4 @@ class ReadLaterView(View):
 
     request.session["stored_posts"] = stored_posts
 
-    return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
+    return HttpResponseRedirect("/read-later")
