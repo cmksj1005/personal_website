@@ -59,19 +59,30 @@
     <ul>
       {% for feedback in feedbacks %}
       <li>
+        <!--To edit feedback-->
         <h2>{{ feedback.user_name }}</h2>
-        <p>{{ feedback.text|linebreaks }}</p>
+
         {% if feedback.user_password == feedback_password %}
-          <button>TEST</button>
+          <!-- 3. edit the feedback and click enter button, then the feedback will be edited.-->
+          <form action="{% url "project-detail-page" project.slug %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="feedback_id" value="{{ feedback.id }}">
+            <textarea name="edited_feedback" cols="80" rows="5">{{ feedback.text }}</textarea>
+            <button>Enter</button>
+          </form>
+          
         {% elif edit_feedback %}
-          <!--If user enter right password, -->
+          <p>{{ feedback.text|linebreaks }}</p>
+          <!-- 2. if user enter right password, -->
           <form action="{% url "project-detail-page" project.slug %}" method="POST">
             {% csrf_token %}
             <input type="password" name="password" placeholder="Enter your password">
             <button>Enter</button>
           </form>
+          
         {% else %}
-          <!--If user click Edit button, screen shows password input box-->
+        <p>{{ feedback.text|linebreaks }}</p>
+          <!-- 1. if user click Edit button, screen shows password input box-->
           <form action="{% url "project-detail-page" project.slug %}" method="GET">
             <input type="hidden" value="True" name="feedback_edit">
             <button>Edit</button>

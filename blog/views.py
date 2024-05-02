@@ -5,7 +5,9 @@ from django.views.generic import ListView
 from django.views import View
 
 from .models import Project
+from .models import Feedback
 from .forms import FeedbackForm
+
 
 # Create your views here.
 
@@ -57,13 +59,23 @@ class SingleProjectView(View):
     project = Project.objects.get(slug=slug)
     edit_feedback = request.GET.get('feedback_edit', False)
     feedback_password = request.POST.get('password', "")
+    edited_feedback = request.POST.get('edited_feedback', "")
+    feedback_id = request.POST.get('feedback_id', None)
+    
 
-    print(feedback_password)
-    print(type(feedback_password))
-    print(project.feedbacks.all()[0].user_password)
-    print(type(project.feedbacks.all()[0].user_password))
+    # print(project.feedbacks.all()[0].user_password) <-- This is for test
+
+    # If user finished to edit the feedback and click enter
+    if edited_feedback != "":
+      # Retrieve the feedback instance
+      feedback = get_object_or_404(Feedback, id=feedback_id)
+      # Update the feedback text
+      feedback.text = edited_feedback
+      feedback.save() # Save the changes to the database
+      return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
+ 
     # If user input password to edit his/her feedback
-    if feedback_password is not "":
+    if feedback_password != "":
       # I removed "feedback_form": feedback_form in the context, because this line shows form_field error messages
       context = {
         "project": project,
@@ -75,12 +87,14 @@ class SingleProjectView(View):
         "feedback_password": feedback_password
       }
       return render(request, "blog/project-detail.html", context)
+    
     # If user input valid feedback form
     if feedback_form.is_valid():
       feedback = feedback_form.save(commit=False)
       feedback.project = project
       feedback.save()
       return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
+    
     # If user input invalid feedback form, it returns context include invalid feedback form so that screen shows form_field error message.
     context = {
       "project": project,

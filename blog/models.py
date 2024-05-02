@@ -39,4 +39,3 @@ class Feedback(models.Model):
   user_password = models.CharField(max_length=10, null=True)
   text = models.TextField(max_length=400)
   project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="feedbacks")
-  edit = models.BooleanField(default=False)
