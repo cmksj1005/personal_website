@@ -61,15 +61,22 @@
       <li>
         <h2>{{ feedback.user_name }}</h2>
         <p>{{ feedback.text|linebreaks }}</p>
-        <form action="{% url "project-detail-page" project.slug %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" value="True" name="feedback_edit">
-          {% if feedback.edit %}
-            <button>Test</button>
-          {% else %}
+        {% if feedback.user_password == feedback_password %}
+          <button>TEST</button>
+        {% elif edit_feedback %}
+          <!--If user enter right password, -->
+          <form action="{% url "project-detail-page" project.slug %}" method="POST">
+            {% csrf_token %}
+            <input type="password" name="password" placeholder="Enter your password">
+            <button>Enter</button>
+          </form>
+        {% else %}
+          <!--If user click Edit button, screen shows password input box-->
+          <form action="{% url "project-detail-page" project.slug %}" method="GET">
+            <input type="hidden" value="True" name="feedback_edit">
             <button>Edit</button>
-          {% endif %}
-        </form>
+          </form>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>

@@ -27,7 +27,7 @@ class AllProjectsView(ListView):
   context_object_name = "all_projects"
 
 class SingleProjectView(View):
-  def is_stored_project(self, request, project_id): #### 여기 체크해서 나중에 redirect 다시 보자. 여기서 project_id 가져오네
+  def is_stored_project(self, request, project_id):
     stored_projects = request.session.get("stored_projects")
     if stored_projects is not None:
       is_saved_for_later = project_id in stored_projects
@@ -37,6 +37,8 @@ class SingleProjectView(View):
 
   def get(self, request, slug):
     project = Project.objects.get(slug=slug)
+    edit_feedback = request.GET.get('feedback_edit', False)
+    feedback_password = request.POST.get('password', "")
 
     context = {
       "project": project,
@@ -44,29 +46,50 @@ class SingleProjectView(View):
       "feedback_form": FeedbackForm(),
       "feedbacks": project.feedbacks.all().order_by("-id"),
       "saved_for_later": self.is_stored_project(request, project.id),
-      "has_feedback": len(project.feedbacks.all())
+      "has_feedback": len(project.feedbacks.all()),
+      "edit_feedback": edit_feedback,
+      "feedback_password": feedback_password
     }
     return render(request, "blog/project-detail.html", context)
 
-  def post(self, request, slug, feedback_edit):
+  def post(self, request, slug):
     feedback_form = FeedbackForm(request.POST)
     project = Project.objects.get(slug=slug)
+    edit_feedback = request.GET.get('feedback_edit', False)
+    feedback_password = request.POST.get('password', "")
 
+    print(feedback_password)
+    print(type(feedback_password))
+    print(project.feedbacks.all()[0].user_password)
+    print(type(project.feedbacks.all()[0].user_password))
+    # If user input password to edit his/her feedback
+    if feedback_password is not "":
+      # I removed "feedback_form": feedback_form in the context, because this line shows form_field error messages
+      context = {
+        "project": project,
+        "project_tags": project.tags.all(),
+        "feedbacks": project.feedbacks.all().order_by("-id"),
+        "saved_for_later": self.is_stored_project(request, project.id),
+        "has_feedback": len(project.feedbacks.all()),
+        "edit_feedback": edit_feedback,
+        "feedback_password": feedback_password
+      }
+      return render(request, "blog/project-detail.html", context)
+    # If user input valid feedback form
     if feedback_form.is_valid():
       feedback = feedback_form.save(commit=False)
       feedback.project = project
-      # this part!!
-      feedback.edit = feedback_edit == "True"
-      print(feedback.edit)
       feedback.save()
       return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
-    
+    # If user input invalid feedback form, it returns context include invalid feedback form so that screen shows form_field error message.
     context = {
       "project": project,
       "project_tags": project.tags.all(),
       "feedback_form": feedback_form,
       "feedbacks": project.feedbacks.all().order_by("-id"),
-      "saved_for_later": self.is_stored_project(request, project.id)
+      "saved_for_later": self.is_stored_project(request, project.id),
+      "has_feedback": len(project.feedbacks.all()),
+      "edit_feedback": edit_feedback,
     }
     return render(request, "blog/project-detail.html", context)
   
