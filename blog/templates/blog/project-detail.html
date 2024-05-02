@@ -30,6 +30,7 @@
       <form action="{% url "read-later" %}" method="POST">
         {% csrf_token %}
         <input type="hidden" value="{{ project.id }}" name="project_id">
+        <input type="hidden" value="{{ project.slug }}" name="project_slug">
         <button>
           {% if saved_for_later %}
             Remove from "Read Later" List
@@ -91,13 +92,27 @@
           <!-- 1. if user click Edit button, screen shows password input box-->
           <form action="{% url "project-detail-page" project.slug %}" method="GET">
             <input type="hidden" value="True" name="feedback_edit">
-            <button>Edit</button>
+            <input type="hidden" value="True" name="go_to_edit_button">
+            <button id="editButton">Edit</button>
           </form>
         {% endif %}
       </li>
       {% endfor %}
     </ul>
   </section>
+
+  <script>
+    window.onload = function() {
+        var shouldNavigate = "{{ go_to_edit_button }}";
+        console.log("Should navigate:", shouldNavigate);  // Debugging output
+        if (shouldNavigate === "True") {
+            var element = document.getElementById('editButton');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    };
+    </script>
 
   <section id="feedback-form">
     <h2>Your Feedback</h2>

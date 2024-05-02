@@ -40,7 +40,7 @@ class SingleProjectView(View):
   def get(self, request, slug):
     project = Project.objects.get(slug=slug)
     edit_feedback = request.GET.get('feedback_edit', False)
-    feedback_password = request.POST.get('password', "")
+    go_to_edit_button = request.GET.get('go_to_edit_button', False)
 
     context = {
       "project": project,
@@ -50,7 +50,7 @@ class SingleProjectView(View):
       "saved_for_later": self.is_stored_project(request, project.id),
       "has_feedback": len(project.feedbacks.all()),
       "edit_feedback": edit_feedback,
-      "feedback_password": feedback_password
+      "go_to_edit_button": go_to_edit_button
     }
     return render(request, "blog/project-detail.html", context)
 
@@ -125,6 +125,7 @@ class ReadLaterView(View):
 
   def post(self, request):
     stored_projects = request.session.get("stored_projects")
+    project_slug = request.POST.get('project_slug', "")
 
     if stored_projects is None:
       stored_projects = []
@@ -139,4 +140,4 @@ class ReadLaterView(View):
 
     request.session["stored_projects"] = stored_projects
 
-    return HttpResponseRedirect("/read-later")
+    return HttpResponseRedirect(reverse("project-detail-page", args=[project_slug]))
