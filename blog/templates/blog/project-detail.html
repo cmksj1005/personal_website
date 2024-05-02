@@ -69,6 +69,9 @@
             <input type="hidden" name="feedback_id" value="{{ feedback.id }}">
             <textarea name="edited_feedback" cols="80" rows="5">{{ feedback.text }}</textarea>
             <button>Enter</button>
+            <form action="{% url "project-detail-page" project.slug %}">
+              <button>Cancel</button>
+            </form>
           </form>
           
         {% elif edit_feedback %}
@@ -78,6 +81,9 @@
             {% csrf_token %}
             <input type="password" name="password" placeholder="Enter your password">
             <button>Enter</button>
+          </form>
+          <form action="{% url "project-detail-page" project.slug %}">
+            <button>Cancel</button>
           </form>
           
         {% else %}
