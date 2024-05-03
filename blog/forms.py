@@ -11,3 +11,6 @@ class FeedbackForm(forms.ModelForm):
       "user_password": "Password",
       "text": "Feedback"
     }
+    widgets = {
+      'user_password': forms.PasswordInput(),  # This tells Django to use the password input widget
+    }

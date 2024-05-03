@@ -41,6 +41,7 @@ class SingleProjectView(View):
     project = Project.objects.get(slug=slug)
     edit_feedback = request.GET.get('feedback_edit', False)
     go_to_edit_button = request.GET.get('go_to_edit_button', False)
+    edit_id = request.GET.get('edit_id', -1)
 
     context = {
       "project": project,
@@ -50,7 +51,8 @@ class SingleProjectView(View):
       "saved_for_later": self.is_stored_project(request, project.id),
       "has_feedback": len(project.feedbacks.all()),
       "edit_feedback": edit_feedback,
-      "go_to_edit_button": go_to_edit_button
+      "go_to_edit_button": go_to_edit_button,
+      "edit_id": int(edit_id)
     }
     return render(request, "blog/project-detail.html", context)
 
@@ -58,33 +60,48 @@ class SingleProjectView(View):
     feedback_form = FeedbackForm(request.POST)
     project = Project.objects.get(slug=slug)
     edit_feedback = request.GET.get('feedback_edit', False)
-    feedback_password = request.POST.get('password', "")
-    edited_feedback = request.POST.get('edited_feedback', "")
+    feedback_password = request.POST.get('password', None)
+    edited_feedback = request.POST.get('edited_feedback', None)
     feedback_id = request.POST.get('feedback_id', None)
-    
+    go_to_edit_button = request.POST.get('go_to_edit_button', False)
+    edit_id = request.POST.get('edit_id', -1)
 
-    # print(project.feedbacks.all()[0].user_password) <-- This is for test
-
-    # If user finished to edit the feedback and click enter
-    if edited_feedback != "":
+    # If user finished to edit the feedback and click enter button
+    if edited_feedback:
       # Retrieve the feedback instance
       feedback = get_object_or_404(Feedback, id=feedback_id)
       # Update the feedback text
       feedback.text = edited_feedback
       feedback.save() # Save the changes to the database
-      return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
- 
-    # If user input password to edit his/her feedback
-    if feedback_password != "":
-      # I removed "feedback_form": feedback_form in the context, because this line shows form_field error messages
+
       context = {
         "project": project,
         "project_tags": project.tags.all(),
+        "feedback_form": FeedbackForm(),
         "feedbacks": project.feedbacks.all().order_by("-id"),
         "saved_for_later": self.is_stored_project(request, project.id),
         "has_feedback": len(project.feedbacks.all()),
         "edit_feedback": edit_feedback,
-        "feedback_password": feedback_password
+        "feedback_password": feedback_password,
+        "go_to_edit_button": go_to_edit_button,
+        "edit_id": int(edit_id)
+      }
+      return render(request, "blog/project-detail.html", context)
+ 
+    # If user input password to edit his/her feedback
+    if feedback_password:
+      # I removed "feedback_form": feedback_form in the context, because this line shows form_field error messages
+      context = {
+        "project": project,
+        "project_tags": project.tags.all(),
+        "feedback_form": FeedbackForm(),
+        "feedbacks": project.feedbacks.all().order_by("-id"),
+        "saved_for_later": self.is_stored_project(request, project.id),
+        "has_feedback": len(project.feedbacks.all()),
+        "edit_feedback": edit_feedback,
+        "feedback_password": feedback_password,
+        "go_to_edit_button": go_to_edit_button,
+        "edit_id": int(edit_id)
       }
       return render(request, "blog/project-detail.html", context)
     
@@ -95,15 +112,15 @@ class SingleProjectView(View):
       feedback.save()
       return HttpResponseRedirect(reverse("project-detail-page", args=[slug]))
     
-    # If user input invalid feedback form, it returns context include invalid feedback form so that screen shows form_field error message.
     context = {
       "project": project,
       "project_tags": project.tags.all(),
-      "feedback_form": feedback_form,
+      "feedback_form": FeedbackForm(), 
       "feedbacks": project.feedbacks.all().order_by("-id"),
       "saved_for_later": self.is_stored_project(request, project.id),
       "has_feedback": len(project.feedbacks.all()),
       "edit_feedback": edit_feedback,
+      "go_to_edit_button": go_to_edit_button
     }
     return render(request, "blog/project-detail.html", context)
   

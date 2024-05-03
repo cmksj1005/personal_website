@@ -10,14 +10,13 @@
 {% endblock %}
 
 {% block content %}
-
-{% if feedback_form.errors %}
-<div id="alert">
-  <h2>Saving the feedback failed!</h2>
-  <p>Please check the feedback form below the project and fix your errors.</p>
-  <a href="#feedback-form">Fix</a>
-</div>
-{% endif %}
+  {% if feedback_form.errors %}
+  <div id="alert">
+    <h2>Saving the feedback failed!</h2>
+    <p>Please check the feedback form below the project and fix your errors.</p>
+    <a href="#feedback-form">Fix</a>
+  </div>
+  {% endif %}
 
   <section id="summary">
     <h2>{{ project.title }}</h2>
@@ -62,37 +61,73 @@
       <li>
         <!--To edit feedback-->
         <h2>{{ feedback.user_name }}</h2>
+        <!--This if statement is for finding the feedback id which the user want to edit.-->
+        {% if edit_id == feedback.id %}
+          {%if feedback_password %}
+            <!--If the password is right, screen will display text box-->
+            {% if feedback_password == feedback.user_password %}
+              <!-- 3. edit the feedback and click enter button, then the feedback will be edited.-->
+              <form action="{% url "project-detail-page" project.slug %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="feedback_id" value="{{ feedback.id }}">
+                <textarea name="edited_feedback" cols="80" rows="5">{{ feedback.text }}</textarea>
+                <input type="hidden" value="True" name="go_to_edit_button">
+                <input type="hidden" value={{ feedback.id }} name="edit_id">
+                <button>Enter</button>
+                <form action="{% url "project-detail-page" project.slug %}">
+                  <input type="hidden" value="True" name="go_to_edit_button">
+                  <button>Cancel</button>
+                </form>
+              </form>
+            <!--If the password is wrong, screen will display Wrong Password error message.-->
+            {% else %}
+              <p>{{ feedback.text|linebreaks }}</p>
+              <p>Wrong Password!</p>
+              <form action="{% url "project-detail-page" project.slug %}" method="POST">
+                {% csrf_token %}
+                <input type="password" name="password" placeholder="Enter your password">
+                <input type="hidden" value="True" name="go_to_edit_button">
+                <input type="hidden" value={{ feedback.id }} name="edit_id">
+                <button>Enter</button>
+              </form>
+              <form action="{% url "project-detail-page" project.slug %}">
+                <input type="hidden" value="True" name="go_to_edit_button">
+                <button>Cancel</button>
+              </form>
+            {% endif %}
 
-        {% if feedback.user_password == feedback_password %}
-          <!-- 3. edit the feedback and click enter button, then the feedback will be edited.-->
-          <form action="{% url "project-detail-page" project.slug %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="feedback_id" value="{{ feedback.id }}">
-            <textarea name="edited_feedback" cols="80" rows="5">{{ feedback.text }}</textarea>
-            <button>Enter</button>
+          {% elif edit_feedback %}
+            <p>{{ feedback.text|linebreaks }}</p>
+            <!-- 2. Password box is displayed and user can enter password-->
+            <form action="{% url "project-detail-page" project.slug %}" method="POST">
+              {% csrf_token %}
+              <input type="password" name="password" placeholder="Enter your password">
+              <input type="hidden" value="True" name="go_to_edit_button">
+              <input type="hidden" value={{ feedback.id }} name="edit_id">
+              <button>Enter</button>
+            </form>
             <form action="{% url "project-detail-page" project.slug %}">
+              <input type="hidden" value="True" name="go_to_edit_button">
               <button>Cancel</button>
             </form>
-          </form>
-          
-        {% elif edit_feedback %}
+            
+          {% else %}
           <p>{{ feedback.text|linebreaks }}</p>
-          <!-- 2. if user enter right password, -->
-          <form action="{% url "project-detail-page" project.slug %}" method="POST">
-            {% csrf_token %}
-            <input type="password" name="password" placeholder="Enter your password">
-            <button>Enter</button>
-          </form>
-          <form action="{% url "project-detail-page" project.slug %}">
-            <button>Cancel</button>
-          </form>
-          
+            <!-- 1. if user click Edit button, screen shows password input box-->
+            <form action="{% url "project-detail-page" project.slug %}" method="GET">
+              <input type="hidden" value="True" name="feedback_edit">
+              <input type="hidden" value="True" name="go_to_edit_button">
+              <input type="hidden" value={{ feedback.id }} name="edit_id">
+              <button id="editButton">Edit</button>
+            </form>
+          {% endif %}
+        <!--Edit function will not be activated for other feedbacks (if edit_id != feedback.id)-->
         {% else %}
-        <p>{{ feedback.text|linebreaks }}</p>
-          <!-- 1. if user click Edit button, screen shows password input box-->
+          <p>{{ feedback.text|linebreaks }}</p>
           <form action="{% url "project-detail-page" project.slug %}" method="GET">
             <input type="hidden" value="True" name="feedback_edit">
             <input type="hidden" value="True" name="go_to_edit_button">
+            <input type="hidden" value={{ feedback.id }} name="edit_id">
             <button id="editButton">Edit</button>
           </form>
         {% endif %}
@@ -100,19 +135,6 @@
       {% endfor %}
     </ul>
   </section>
-
-  <script>
-    window.onload = function() {
-        var shouldNavigate = "{{ go_to_edit_button }}";
-        console.log("Should navigate:", shouldNavigate);  // Debugging output
-        if (shouldNavigate === "True") {
-            var element = document.getElementById('editButton');
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    };
-    </script>
 
   <section id="feedback-form">
     <h2>Your Feedback</h2>
@@ -128,4 +150,14 @@
       <button>Save Feedback</button>
     </form>
   </section>
+
+  <!--To keep displaying Edit button location on the screen after user clicks the edit button-->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var shouldNavigate = "{{ go_to_edit_button }}";
+      if (shouldNavigate === "True") {
+        window.location.hash = "#feedbacks"
+      }
+    });
+  </script>
 {% endblock %}
