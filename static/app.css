@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -17,7 +17,6 @@ h2,
 h3 {
   font-family: 'Lato', sans-serif;
   font-weight: bold;
-  color: red; /*TEST*/
 }
 
 #main-navigation {
@@ -47,4 +46,4 @@ h3 {
 #main-navigation h1 a:hover,
 #main-navigation h1 a:active {
   color: white;
-}
+} */
