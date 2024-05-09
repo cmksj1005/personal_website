@@ -1,7 +1,7 @@
-body {
-    background-color: #e7e7e7;
-  }
-  
+/* body {
+  background-color: #e7e7e7;
+}
+
 #main-navigation {
   background-color: #390281;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
@@ -55,7 +55,7 @@ body {
 
 #summary time {
   font-weight: bold;
-} 
+}
 
 #read-later {
   margin: 2rem 0;
@@ -131,12 +131,12 @@ main {
 
 .form-control input,
 .form-control textarea {
-display: block;
-width: 100%;
-font: inherit;
-padding: 0.25rem;
-border-radius: 6px;
-border: 1px solid #ccc;
+  display: block;
+  width: 100%;
+  font: inherit;
+  padding: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 .errorlist {
@@ -201,4 +201,4 @@ border: 1px solid #ccc;
 
 #feedbacks h2 {
   color: #464646;
-}
+} */
