@@ -10,49 +10,63 @@
 {% endblock %}
 
 {% block content %}
-  {% if feedback_form.errors %}
+  {% comment %} {% if feedback_form.errors %}
   <div id="alert">
     <h2>Saving the feedback failed!</h2>
     <p>Please check the feedback form below the project and fix your errors.</p>
     <a href="#feedback-form">Fix</a>
   </div>
-  {% endif %}
+  {% endif %} {% endcomment %}
 
-  <section id="summary">
-    <h2>{{ project.title }}</h2>
-    <div>
-      {% for tag in project_tags %}
-        <span class="tag">{{ tag.caption }}</span>
-      {% endfor %}
-    </div>
-    <div id="read-later">
-      <form action="{% url "read-later" %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" value="{{ project.id }}" name="project_id">
-        <input type="hidden" value="{{ project.slug }}" name="project_slug">
-        <button>
-          {% if saved_for_later %}
-            Remove from "Read Later" List
-          {% else %}
-            Read Later
-          {% endif %}
-        </button>
-      </form>
-    </div>
-    <article>
-      <img src="{{ project.image.url }}" alt="{{ project.title }}">
-      <address>By <a href="mailto:{{ project.author.email_address }}">{{ project.author }}</a></address>
-      <div>
-        Last updated on <time>{{ project.date|date:"d M Y" }}</time>
+  <section id="project-detail">
+    <div id="project-detail-container">
+      <div id="project-detail-title">
+        <div></div>
+        <h2>{{ project.title }}</h2>
+        <div class="tag-container">
+          {% for tag in project_tags %}
+            <span class="tag">{{ tag.caption }}</span>
+          {% endfor %}
+        </div>
       </div>
-    </article>
+      {% comment %} <div id="read-later">
+        <form action="{% url "read-later" %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" value="{{ project.id }}" name="project_id">
+          <input type="hidden" value="{{ project.slug }}" name="project_slug">
+          <button>
+            {% if saved_for_later %}
+              Remove from "Read Later" List
+            {% else %}
+              Read LaterW
+            {% endif %}
+          </button>
+        </form>
+      </div> {% endcomment %}
+      <article class="project-detail-image">
+        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+        {% comment %} <address>By <a href="mailto:{{ project.author.email_address }}">{{ project.author }}</a></address> {% endcomment %}
+        <div class="upload-info">
+          Last updated on <time>{{ project.date|date:"d M Y" }}</time>
+        </div>
+      </article>
+
+      <div class="column is-8 is-offset-2 content">
+        <!-- START ARTICLE -->
+        <div class="card article content-container">
+            <div class="card-content">
+              {{ project.content|linebreaks }}
+            </div>
+        </div>
+        <!-- END ARTICLE -->
+      </div>
+    </div>
+
   </section>
 
-  <main>
-    {{ project.content|linebreaks }}
-  </main>
 
-  <section id="feedbacks">
+
+  {% comment %} <section id="feedbacks">
     {% if has_feedback == 0 %}
       <p>No Feedback</p>
     {% endif %}
@@ -134,9 +148,9 @@
       </li>
       {% endfor %}
     </ul>
-  </section>
+  </section> {% endcomment %}
 
-  <section id="feedback-form">
+  {% comment %} <section id="feedback-form">
     <h2>Your Feedback</h2>
     <form action="{% url "project-detail-page" project.slug %}" method="POST">
       {% csrf_token %}
@@ -159,5 +173,5 @@
         window.location.hash = "#feedbacks"
       }
     });
-  </script>
+  </script> {% endcomment %}
 {% endblock %}

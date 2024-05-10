@@ -20,16 +20,19 @@
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <a class="navbar-item" href="{% url "starting-page" %}">Home</a>
-            <a class="navbar-item" href="{% url "projects-page" %}">All Projects</a>
+            <a class="navbar-item all-projects-button" href="{% url "projects-page" %}">All Projects</a>
             {% comment %} <a class="navbar-item" href="{% url "read-later" %}">Stored Projects</a> {% endcomment %}
+            <a class="navbar-item" href="https://github.com/cmksj1005?tab=repositories">GitHub</a>
+            <a class="navbar-item" href="https://www.linkedin.com/in/shinjokang/">LinkedIn</a>
           </div>
       
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-primary custom-button">
-                  <strong>Work With Me</strong>
-                </a>
+                <a class="button is-primary custom-button" href="mailto:skang79@myseneca.ca">Contant Me</a>
+                {% comment %} <a class="button is-primary custom-button">
+                  <strong>Resume</strong>
+                </a> {% endcomment %}
               </div>
             </div>
           </div>
@@ -37,5 +40,20 @@
       </nav>
     
     {% block content %}{% endblock %}
+
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <div class="footer-content-box">
+            <p class="footer-p">© 2024 Shinjo Kang</p>
+            <p class="footer-p"><span class="quote">"Programming is not about typing, it's about thinking."</span> - Rick Hickey</p>
+            <div class="soc">
+              <a href="#">Github</a>
+              <a href="#">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

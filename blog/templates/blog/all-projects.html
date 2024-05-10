@@ -12,11 +12,13 @@
 
 {% block content %}
     <section id="all-projects">
-        <h2>My Collected Projects</h2>
-        <ul>
+        <h2>My Projects</h2>
+        <div class="all-projects-container">
+          <ul class="all-projects-ul">
             {% for project in all_projects %}
               {% include "blog/includes/project.html" %}
             {% endfor %}
-        </ul>
+          </ul>
+        </div>
     </section>
 {% endblock %}

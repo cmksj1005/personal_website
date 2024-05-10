@@ -27,10 +27,22 @@
       <div class="introduce-container">
         {% comment %} <h1 class="introduce-title">Hello.</h1>
         <p class="introduce-content">I’m an enthusiastic programmer eager to explore and conquer new tech frontiers. <br/> I value collaboration and aim to drive innovation and efficiency in every project I tackle.</p> {% endcomment %}
+
+        <p class="dot-line">. . . . .</p>
+    <!-- Recent Projects -->
+            <h2 class="recent-projects-title">My Recent Projects</h2>
+            <ul class="card-container">
+              {% for project in projects %}
+                <div class="cell">
+                  {% include "blog/includes/project.html" %}
+                </div>
+              {% endfor %}
+            </ul>
+
         <p class="dot-line">. . . . .</p>
     <!-- My Skills -->
         <h2 class="skill-title">My Skills</h2>
-        <div class="columns is-multiline">
+        <div class="columns is-multiline skill-container">
             <div class="column is-6">
               <div class="category">
                 <h3 class="title is-5 skill-sub-title">
@@ -127,45 +139,7 @@
               </div>
             </div>
         </div>
-        <p class="dot-line">. . . . .</p>
-    <!-- Recent Projects -->
-        <h2 class="recent-projects-title">My Recent Projects</h2>
-        <div class="columns features">
-            {% comment %} {% for project in projects %}
-              <div class="cell">
-                {% include "blog/includes/project.html" %}
-              </div>
-            {% endfor %} {% endcomment %}
-            {% comment %} {% for project in projects %}
-                <div class="column is-5">
-                <div class="card is-shady">
-                    <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="{{ project.image.url }}" alt="{{ project.image.title }}" class="modal-button" data-target="modal-image2">
-                    </figure>
-                    </div>
-                    <div class="card-content">
-                    <div class="content">
-                        <h4>{{ project.title }}</h4>
-                        <span class="button is-link modal-button" data-target="modal-image2">Image modal</span>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            {% endfor %} {% endcomment %}
-          </div>
       </div>
     </header>
   </section>
-
-  <section id="latest-projects">
-    <ul class="card-container">
-      {% for project in projects %}
-        <div class="cell">
-          {% include "blog/includes/project.html" %}
-        </div>
-      {% endfor %}
-    </ul>
-  </section>
-
 {% endblock %}
