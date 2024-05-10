@@ -11,6 +11,11 @@
           <div class="card-content">
             <div class="content">
                 <h4>{{ project.title }}</h4>
+                <div class="tag-container">
+                  {% for tag in project.tags.all %}
+                    <span class="tag">{{ tag.caption }}</span>
+                  {% endfor %}
+                </div>
             </div>
           </div>
         </div>

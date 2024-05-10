@@ -12,3 +12,8 @@
     transform: scale(1.1) !important;
     color: white !important;
 }
+
+.tag {
+    margin: 2px;
+    margin-left: 0px;
+}
