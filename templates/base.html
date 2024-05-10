@@ -13,11 +13,10 @@
   <body>
     <header id="main-navigation">
       <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item custom-website-name" href="{% url "starting-page" %}"><span class="first-letter">S</span>HINJO<span class="first-letter">K</span>ANG</a>
-        </div>
-      
         <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-brand">
+            <a class="navbar-item custom-website-name" href="{% url "starting-page" %}"><span class="first-letter">S</span>HINJO<span class="first-letter">K</span>ANG</a>
+          </div>
           <div class="navbar-start">
             <a class="navbar-item" href="{% url "starting-page" %}">Home</a>
             <a class="navbar-item all-projects-button" href="{% url "projects-page" %}">All Projects</a>
