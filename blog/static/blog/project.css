@@ -42,3 +42,25 @@
 .project:active time {
     color: white;
 } */
+
+/* .project__content {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  } */
+  
+.card-frame{
+    width: 300px !important;
+}
+
+.card-frame {
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.card-frame:hover,
+.card-frame:active {
+    transform: scale(1.1) !important;
+    color: white !important;
+}

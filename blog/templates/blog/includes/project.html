@@ -1,10 +1,19 @@
 <li>
   <article class="project">
     <a href="{% url "project-detail-page" project.slug %}">
-      <img src="{{ project.image.url }}" alt={{ project.title }} />
-      <div class="project__content">
-        <h3>{{ project.title }}</h3>
-        <p>{{ project.excerpt }}</p>
+      <div class="column is-5 card-frame">
+        <div class="card is-shady">
+          <div class="card-image">
+            <figure class="image is-4by3">
+                <img src="{{ project.image.url }}" alt="{{ project.image.title }}" class="modal-button" data-target="modal-image2">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+                <h4>{{ project.title }}</h4>
+            </div>
+          </div>
+        </div>
       </div>
     </a>
   </article>

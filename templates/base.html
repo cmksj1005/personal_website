@@ -7,16 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "app.css" %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     {% block css_files %}{% endblock %}
   </head>
   <body>
     <header id="main-navigation">
-      <h1><a href="{% url "starting-page" %}">TEST's Blog</a></h1>
-      <nav>
-        <a href="{% url "projects-page" %}">All Projects</a>
-        <a href="{% url "read-later" %}">Stored Projects</a>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item custom-website-name" href="{% url "starting-page" %}"><span class="first-letter">S</span>HINJO<span class="first-letter">K</span>ANG</a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="{% url "starting-page" %}">Home</a>
+            <a class="navbar-item" href="{% url "projects-page" %}">All Projects</a>
+            {% comment %} <a class="navbar-item" href="{% url "read-later" %}">Stored Projects</a> {% endcomment %}
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary custom-button">
+                  <strong>Work With Me</strong>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
-    </header>
     
     {% block content %}{% endblock %}
   </body>

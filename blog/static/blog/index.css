@@ -73,3 +73,60 @@
   font-size: 1.5rem;
   color: #353535;
 } */
+
+.hero-container{
+  width: 100%;
+}
+
+.adjust-image{
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.introduce-container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.introduce-title{
+  color:#A0DEFF;
+  font-size: 3rem;
+  font-weight:700;
+  margin: 50px;
+}
+
+.introduce-content{
+  width:800px;
+  font-size: 2rem;
+  text-align: center;
+  color: #404654;
+}
+
+.dot-line{
+  font-size: 2rem;
+  font-weight: 900;
+  color:#5ab2ff3a;
+  margin: 50px;
+}
+
+.skill-title,
+.recent-projects-title{
+  font-size: 2rem;
+  font-weight: 700;
+  color: #404654;
+  margin-bottom: 50px;
+}
+
+.skill-sub-title,
+.skill-content{
+  text-align: center;
+  color: #544c40;
+}
+
+.card-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
