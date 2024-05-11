@@ -26,6 +26,24 @@ h2{
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.project-detail-info{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 20px;
+}
+
+.github{
+  text-decoration: none;
+  font-weight: 800;
+  color: #40465457;
+}
+
+.github:hover,
+.github:active{
+  color:#5AB2FF;
+}
+
 .tag-container{
   display: flex;
   flex-direction: row;
@@ -52,4 +70,9 @@ h2{
 .card-content{
   padding: 10px;
   min-height: 550px;
+}
+
+.github-button-container{
+  display: flex;
+  justify-content: center;
 }

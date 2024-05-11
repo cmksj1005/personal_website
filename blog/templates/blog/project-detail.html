@@ -46,8 +46,9 @@
       <article class="project-detail-image">
         <img src="{{ project.image.url }}" alt="{{ project.title }}">
         {% comment %} <address>By <a href="mailto:{{ project.author.email_address }}">{{ project.author }}</a></address> {% endcomment %}
-        <div class="upload-info">
-          Last updated on <time>{{ project.date|date:"d M Y" }}</time>
+        <div class="project-detail-info">
+          <div><a class="github" href="{{ project.github }}">{{ project.github }}</a></div>
+          <div class="upload-info">Last updated on <time>{{ project.date|date:"d M Y" }}</time></div>
         </div>
       </article>
 
@@ -59,6 +60,9 @@
             </div>
         </div>
         <!-- END ARTICLE -->
+      </div>
+      <div class="github-button-container">
+        <a class="button is-primary custom-button" href="{{ project.github }}">GitHub</a>
       </div>
     </div>
 
