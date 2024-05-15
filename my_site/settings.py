@@ -40,9 +40,21 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = [
-  getenv("APP_HOST")
-]
+# ALLOWED_HOSTS = [
+#   getenv("APP_HOST")
+# ]
+
+# Retrieve the APP_HOST environment variable and split by comma to support multiple hosts
+app_host = os.getenv("APP_HOST")
+if app_host:
+    ALLOWED_HOSTS = app_host.split(',')
+else:
+    ALLOWED_HOSTS = []
+
+# Additional settings for secure proxy SSL header and CSRF trusted origins
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
 
 
 # Application definition
