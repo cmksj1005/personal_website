@@ -45,9 +45,6 @@ DEBUG = getenv("IS_DEVELOPMENT", True)
 #   "shinjokang.com"
 # ]
 
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
 # Retrieve the APP_HOST environment variable and split by comma to support multiple hosts
 app_host = os.getenv("APP_HOST")
 if app_host:
