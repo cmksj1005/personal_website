@@ -36,7 +36,7 @@ def get_secret(setting):
 
 SECRET_KEY = get_secret("SECRET_KEY")
 # DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-DEBUG = True
+DEBUG = False
 
 app_host = os.getenv("APP_HOST", "")
 ALLOWED_HOSTS = [host.strip() for host in app_host.split(",") if host.strip()]
