@@ -8,6 +8,7 @@ pillow==10.3.0
 psycopg==3.1.19
 psycopg-binary==3.1.19
 python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
 s3transfer==0.10.1
 six==1.16.0
 sqlparse==0.5.0
