@@ -179,12 +179,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-MEDIA_ROOT = BASE_DIR / "uploads"
-MEDIA_URL = "/files/"
-
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "custom_storages.AzureMediaStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -196,5 +193,4 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = "custom_storages.AzureMediaStorage"
 MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/"
