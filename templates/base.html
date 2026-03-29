@@ -6,8 +6,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "app.css" %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static "app.css" %}">
     {% block css_files %}{% endblock %}
   </head>
   <body>
@@ -20,7 +20,6 @@
           <div class="navbar-start">
             <a class="navbar-item" href="{% url "starting-page" %}">Home</a>
             <a class="navbar-item all-projects-button" href="{% url "projects-page" %}">All Projects</a>
-            {% comment %} <a class="navbar-item" href="{% url "read-later" %}">Stored Projects</a> {% endcomment %}
             <a class="navbar-item" href="https://github.com/cmksj1005?tab=repositories">GitHub</a>
             <a class="navbar-item" href="https://www.linkedin.com/in/shinjokang/">LinkedIn</a>
           </div>
@@ -28,17 +27,17 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-primary custom-button" href="mailto:skang79@myseneca.ca">Contant Me</a>
-                {% comment %} <a class="button is-primary custom-button">
-                  <strong>Resume</strong>
-                </a> {% endcomment %}
+                <a class="button is-primary custom-button" href="mailto:cmksj1005@gmail.com">Contact Me</a>
               </div>
             </div>
           </div>
         </div>
       </nav>
-    
-    {% block content %}{% endblock %}
+    </header>
+
+    <div class="content-wrapper">
+      {% block content %}{% endblock %}
+    </div>
 
     <footer class="footer">
       <div class="container">
@@ -47,10 +46,6 @@
             <p class="footer-p">© 2024 Shinjo Kang</p>
             <p class="footer-p"><span class="quote">"Programming is not about typing, it's about thinking."</span> - Rick Hickey</p>
             <p class="footer-p">ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
-            {% comment %} <div class="soc">
-              <a href="https://github.com/cmksj1005?tab=repositories"><img class="footer_logo" src="{% static "/blog/images/GitHub_Logo.png" %}" alt="GitHub Logo"></a>
-              <a href="https://www.linkedin.com/in/shinjokang/"><img class="footer_logo" src="{% static "/blog/images/LinkedIn_Logo.png" %}" alt="LinkedIn Logo"></a>
-            </div> {% endcomment %}
           </div>
         </div>
       </div>

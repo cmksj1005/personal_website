@@ -13,55 +13,59 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
-from os import getenv
+from dotenv import load_dotenv
+load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+secret_file = BASE_DIR / "secrets.json"
+secrets = {}
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+if secret_file.exists():
+    with open(secret_file, encoding="utf-8") as f:
+        secrets = json.load(f)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
-
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-def get_secret(setting, secrets=secrets):
+def get_secret(setting):
+    value = os.getenv(setting)
+    if value:
+        return value
     try:
         return secrets[setting]
     except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+        raise ImproperlyConfigured(f"Set the {setting} environment variable")
 
 SECRET_KEY = get_secret("SECRET_KEY")
+# DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = False
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("IS_DEVELOPMENT", True)
+app_host = os.getenv("APP_HOST", "")
+ALLOWED_HOSTS = [host.strip() for host in app_host.split(",") if host.strip()]
 
-# ALLOWED_HOSTS = [
-#   "www.shinjokang.com",
-#   "shinjokang.com"
-# ]
+website_hostname = os.getenv("WEBSITE_HOSTNAME")
+if website_hostname and website_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(website_hostname)
 
-# Retrieve the APP_HOST environment variable and split by comma to support multiple hosts
-app_host = os.getenv("APP_HOST")
-if app_host:
-    ALLOWED_HOSTS = app_host.split(',')
-else:
-    ALLOWED_HOSTS = []
+for host in ["127.0.0.1", "localhost"]:
+    if host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
 
-# Additional settings for secure proxy SSL header and CSRF trusted origins
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = []
+for host in ALLOWED_HOSTS:
+    if host in ["127.0.0.1", "localhost"]:
+        CSRF_TRUSTED_ORIGINS.extend([
+            f"http://{host}",
+            f"https://{host}",
+        ])
+    else:
+        CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
-CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'blog',
+    # 'storages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,6 +76,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,12 +112,25 @@ WSGI_APPLICATION = 'my_site.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": "5432",
+        "OPTIONS": {
+            "sslmode": "require",
+        },
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -157,6 +175,15 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = BASE_DIR / "uploads"
 MEDIA_URL = "/files/"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

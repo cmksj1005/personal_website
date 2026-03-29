@@ -19,7 +19,7 @@ class StartingPageView(ListView):
 
   def get_queryset(self):
     queryset = super().get_queryset()
-    data = queryset[:3]
+    data = queryset.order_by('-date')[:3]
     return data
   
 class AllProjectsView(ListView):

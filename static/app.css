@@ -1,73 +1,95 @@
-.navbar{
+.navbar {
   display: flex;
   justify-content: center;
 }
 
-.navbar-menu{
+.navbar-menu {
   max-width: 2000px;
 }
 
+@media screen and (max-width: 1023px) {
+  .navbar-menu {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .navbar-start,
+  .navbar-end {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-menu {
+    display: none !important;
+  }
+}
+
 .custom-button {
-  background-color: #5AB2FF !important;
+  background-color: #5ab2ff !important;
   color: #ffffff !important;
 }
 
 .custom-button:hover {
   background-color: #ffffff !important;
-  color: #5AB2FF !important;
+  color: #5ab2ff !important;
   padding: 7.5px 15.5px !important;
-  border: 0.5px solid #5AB2FF !important;
+  border: 0.5px solid #5ab2ff !important;
 }
 
-.custom-website-name{
+.custom-website-name {
   font-size: 24px;
   font-weight: 900;
 }
 
-.first-letter{
-  color: #5AB2FF;
+.first-letter {
+  color: #5ab2ff;
 }
 
-.custom-website-name:hover{
-  color:#5AB2FF;
+.custom-website-name:hover {
+  color: #5ab2ff;
 }
 
-.custom-website-name:hover .first-letter{
-  color:#404654;
+.custom-website-name:hover .first-letter {
+  color: #404654;
 }
 
-.custom-website-name, .custom-website-name .first-letter {
+.custom-website-name,
+.custom-website-name .first-letter {
   transition: color 0.3s ease;
 }
 
-.all-projects-button{
+.all-projects-button {
   font-weight: 900 !important;
-  color:#5AB2FF !important;
+  color: #5ab2ff !important;
 }
 
-.navbar-start{
+.navbar-start {
   margin: 25px 0;
 }
 
-.footer{
+.footer {
   background-color: #5ab2ff27 !important;
   padding: 0 !important;
   height: 100px;
 }
 
-.footer-content-box{
+.footer-content-box {
   height: 100px;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
-.footer-p{
+.footer-p {
   margin: 0 !important;
   color: rgba(0, 0, 0, 0.313);
 }
 
-.quote{
+.quote {
   font-style: italic;
 }
