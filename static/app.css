@@ -24,7 +24,34 @@
 
 @media screen and (max-width: 600px) {
   .navbar-menu {
-    display: none !important;
+    display: flex !important;
+    align-items: center;
+    position: relative;
+  }
+
+  .navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .navbar-start a:nth-child(1),
+  .navbar-start a:nth-child(2) {
+    display: none;
+  }
+
+  .navbar-start {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-start a:nth-child(4) {
+    margin-left: auto;
+  }
+
+  .navbar-end {
+    display: none;
   }
 }
 

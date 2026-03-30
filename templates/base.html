@@ -8,6 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" href="{% static "app.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     {% block css_files %}{% endblock %}
   </head>
   <body>
@@ -20,8 +21,15 @@
           <div class="navbar-start">
             <a class="navbar-item" href="{% url "starting-page" %}">Home</a>
             <a class="navbar-item all-projects-button" href="{% url "projects-page" %}">All Projects</a>
-            <a class="navbar-item" href="https://github.com/cmksj1005?tab=repositories">GitHub</a>
-            <a class="navbar-item" href="https://www.linkedin.com/in/shinjokang/">LinkedIn</a>
+            <a class="navbar-item github-link" href="https://github.com/cmksj1005">
+              <i class="fa-brands fa-github"></i>
+              <span class="text">GitHub</span>
+            </a>
+
+            <a class="navbar-item linkedin-link" href="https://www.linkedin.com/in/shinjokang/">
+              <i class="fa-brands fa-linkedin"></i>
+              <span class="text">LinkedIn</span>
+            </a>
           </div>
       
           <div class="navbar-end">
