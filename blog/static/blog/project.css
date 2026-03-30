@@ -1,19 +1,15 @@
-.card-frame{
-    width: 300px !important;
-}
-
 .card-frame {
-    transition: all 0.2s ease;
-    width: 100%;
+  transition: all 0.2s ease;
+  width: 300px;
 }
 
 .card-frame:hover,
 .card-frame:active {
-    transform: scale(1.1) !important;
-    color: white !important;
+  transform: scale(1.1) !important;
+  color: white !important;
 }
 
 .tag {
-    margin: 2px;
-    margin-left: 0px;
+  margin: 2px;
+  margin-left: 0px;
 }
