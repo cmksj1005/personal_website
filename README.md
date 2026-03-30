@@ -17,31 +17,31 @@ This is a personal portfolio website built to showcase my technical skills and p
 
 ## Features
 
-##### Responsive Design
+#### Responsive Design
 
 - Fully responsive layout optimized for desktop and mobile devices
 
-##### Project Showcase
+#### Project Showcase
 
 - "My Recent Projects" section displaying the latest 3 projects
 - "All Projects" page to browse the complete list of projects
 
-##### Project Detail Page
+#### Project Detail Page
 
 - Displays project title, image, and description
 - Includes GitHub repository links for personal projects
 - Includes live deployment links for professional (work-related) projects
 
-##### Navigation
+#### Navigation
 
 - Quick access to GitHub and LinkedIn via the navigation bar
 
-##### Cloud Integration
+#### Cloud Integration
 
 - Images are stored and served using Azure Blob Storage
 - Application is deployed on Azure Web App
 
-##### Automatic Deployment
+#### Automatic Deployment
 
 - GitHub is connected to Azure, enabling automatic deployment on every push
 
