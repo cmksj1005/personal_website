@@ -1,78 +1,96 @@
-main{
+main {
   height: 100vh;
 }
 
-h2{
+h2 {
   font-size: 2rem;
   font-weight: 900;
   color: #404654;
   text-align: center;
-  margin: 25px;
+  margin-top: 25px;
 }
 
-#project-detail{
-  display:flex;
+#project-detail {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-#project-detail-container{
+#project-detail-container {
   max-width: 1200px;
 }
 
-#project-detail-title{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
+#project-detail-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.project-detail-info{
-  display:flex;
+.project-detail-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project-detail-info {
+  display: flex;
   flex-direction: row;
+  width: 100%;
   justify-content: space-between;
   margin: 0 20px;
 }
 
-.github{
+@media (max-width: 750px) {
+  .project-detail-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+.github {
   text-decoration: none;
   font-weight: 800;
   color: #40465457;
 }
 
 .github:hover,
-.github:active{
-  color:#5AB2FF;
+.github:active {
+  color: #5ab2ff;
 }
 
-.tag-container{
+.tag-container {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   justify-content: flex-end;
 }
 
-.tag{
+.tag {
   margin: 5px 2.5px;
 }
 
-.upload-info{
+.upload-info {
   text-align: right;
   font-weight: 800;
   color: #40465457;
 }
 
-.content{
+.content {
   margin: 50px 0 !important;
-  padding: 0!important;
+  padding: 0 !important;
   width: 100% !important;
 }
 
-.card-content{
+.card-content {
   padding: 10px;
   min-height: 550px;
 }
 
-.github-button-container{
+.github-button-container {
   display: flex;
   justify-content: center;
 }

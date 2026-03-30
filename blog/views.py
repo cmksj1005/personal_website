@@ -10,23 +10,22 @@ from .forms import FeedbackForm
 
 
 # Create your views here.
-
 class StartingPageView(ListView):
-  template_name = "blog/index.html"
-  model = Project
-  ordering = ["-date"]
-  context_object_name = "projects"
+    template_name = "blog/index.html"
+    model = Project
+    context_object_name = "projects"
 
-  def get_queryset(self):
-    queryset = super().get_queryset()
-    data = queryset.order_by('-date')[:3]
-    return data
-  
+    def get_queryset(self):
+        return Project.objects.order_by('-date', '-id')[:3]
+
+
 class AllProjectsView(ListView):
-  template_name = "blog/all-projects.html"
-  model = Project
-  ordering = ["-date"]
-  context_object_name = "all_projects"
+    template_name = "blog/all-projects.html"
+    model = Project
+    context_object_name = "all_projects"
+
+    def get_queryset(self):
+        return Project.objects.order_by('-date', '-id')
 
 class SingleProjectView(View):
   def is_stored_project(self, request, project_id):

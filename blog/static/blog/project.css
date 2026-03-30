@@ -1,6 +1,7 @@
 .card-frame {
   transition: all 0.2s ease;
   width: 300px;
+  margin: 0 10px 0 10px;
 }
 
 .card-frame:hover,
@@ -12,4 +13,16 @@
 .tag {
   margin: 2px;
   margin-left: 0px;
+}
+
+.card-content h4 {
+  min-height: 60px;
+}
+
+.card-image {
+  height: 150px;
+}
+
+.image img {
+  height: 170px;
 }
